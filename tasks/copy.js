@@ -35,7 +35,7 @@ module.exports = function(grunt) {
 
       filePair.src.forEach(function(src) {
         if (detectDestType(filePair.dest) === 'directory') {
-          dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
+          dest = (isExpandedPair) ? filePair.dest : path.join(filePair.dest, src);
         } else {
           dest = filePair.dest;
         }
@@ -52,18 +52,11 @@ module.exports = function(grunt) {
   });
 
   var detectDestType = function(dest) {
-    if (grunt.util._.endsWith(dest, '/')) {
+    if (grunt.util._.endsWith(dest, path.sep)) {
       return 'directory';
     } else {
       return 'file';
     }
   };
 
-  var unixifyPath = function(filepath) {
-    if (process.platform === 'win32') {
-      return filepath.replace(/\\/g, '/');
-    } else {
-      return filepath;
-    }
-  };
 };
